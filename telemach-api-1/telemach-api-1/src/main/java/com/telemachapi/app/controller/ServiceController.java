@@ -24,6 +24,11 @@ import com.telemachapi.app.model.Service;
 import com.telemachapi.app.repository.AddressRepository;
 import com.telemachapi.app.repository.ServiceRepository;
 
+/**
+ * This REST controller contains functions for retrieving specific data from table Service or modifying it.
+ * @author Matej
+ *
+ */
 @RestController
 @RequestMapping(value = "/services", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 public class ServiceController {
@@ -32,6 +37,10 @@ public class ServiceController {
 	@Autowired
 	AddressRepository addressRepository;
 	
+	/**
+	 * This function searches the ServiceRepository for all services.
+	 * @return ResponseEntity containing Service object. Can return either in JSON or XML form, based on request.
+	 */
 	@GetMapping("")
 	  public ResponseEntity<List<Service>> getAll() {
 	    try {
@@ -39,10 +48,8 @@ public class ServiceController {
 	      serviceRepository.findAll().forEach(services::add);
 
 	      if (services.isEmpty()) {
-	    	//System.out.println("Addresses are empty.");
 	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	      }
-	      //System.out.println("There is something in addresses. Returning...");
 	      return new ResponseEntity<>(services, HttpStatus.OK);
 	    } catch (Exception e) {
 	    	System.out.println(e.getMessage());
@@ -50,7 +57,10 @@ public class ServiceController {
 	    }
 	  }
 	
-	
+	/**
+	 * This function searches the ServiceRepository for Service with given ID.
+	 * @return ResponseEntity containing Service object. Can return either in JSON or XML form, based on request.
+	 */
 	@GetMapping("/{id}")
 	  public ResponseEntity<Service> getServiceById(@Valid @PathVariable("id") long id) {
 	    Optional<Service> serviceData = serviceRepository.findById(id);
@@ -62,6 +72,11 @@ public class ServiceController {
 	    }
 	  }
 	
+	/**
+	 * This function creates a new Service entry in database, based on Service data in request body. It also specifies it's 
+	 * Address with provided Address ID, as every Service needs to be connected to one Address.
+	 * @return ResponseEntity containing newly created Service object. Can return either in JSON or XML form, based on request.
+	 */
 	@PostMapping("/create/{address_id}")//Service needs to have an address, therefore we have to specify it
 	  public ResponseEntity<Service> createService(@Valid @RequestBody Service service, @Valid @PathVariable("address_id") long address_id) {
 	    try {
@@ -81,6 +96,10 @@ public class ServiceController {
 	    }
 	  }
 	
+	/**
+	 * This function updated an existing Service entry in database, based on Service and its id, provided in request body.
+	 * @return ResponseEntity containing updated Service object. Can return either in JSON or XML form, based on request.
+	 */
 	@PutMapping("/update/{id}")
 	  public ResponseEntity<Service> updateService(@Valid @PathVariable("id") long id, @Valid @RequestBody Service service) {
 		Optional<Service> serviceData = serviceRepository.findById(id);
@@ -101,6 +120,10 @@ public class ServiceController {
 		    }
 	  }
 	
+	/**
+	 * This function deletes Service entry in database, based on Service ID provided in request.
+	 * @return HttpStatus 204 No content upon successful deletion.
+	 */
 	@DeleteMapping("/delete/{id}")
 	  public ResponseEntity<HttpStatus> deleteService(@Valid @PathVariable("id") long id) {
 	    try {

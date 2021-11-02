@@ -1,12 +1,14 @@
 package com.telemachapi.app.model;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
+/**
+ * Provides entity for Service table in database. 
+ * @author Matej
+ *
+ */
 @Entity
 @Table(name = "service")
 public class Service {
@@ -71,7 +73,6 @@ public class Service {
 		this.comment = comment;
 	}
 
-	//@Transient
 	public Address getAddress() {
 		return address;
 	}

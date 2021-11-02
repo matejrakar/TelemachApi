@@ -2,17 +2,17 @@ package com.telemachapi.app.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 
-import org.hibernate.FetchMode;
-import org.hibernate.annotations.Fetch;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-
+/**
+ * Provides entity for Address table in database. 
+ * @author Matej
+ *
+ */
 @Entity
 @Table(name = "address")
 public class Address {
@@ -39,8 +39,6 @@ public class Address {
 	
 	@OneToMany(mappedBy = "address", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("address")
-	//@Fetch(FetchMode.JOIN)
-	//@JoinColumn(name="empId", referencedColumnName="empId")
 	private List<Service> serviceList = new ArrayList<>();
 	
 
